@@ -3,18 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = void 0;
 const vscode = require("vscode");
 const cats = {
-    'Coding Cat': 'https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif',
-    'Compiling Cat': 'https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif',
-    'Testing Cat': 'https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif'
+    'Carmack': ''
 };
 function activate(context) {
-    context.subscriptions.push(vscode.commands.registerCommand('catCoding.start', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('carmack.start', () => {
         CatCodingPanel.createOrShow(context.extensionUri);
-    }));
-    context.subscriptions.push(vscode.commands.registerCommand('catCoding.doRefactor', () => {
-        if (CatCodingPanel.currentPanel) {
-            CatCodingPanel.currentPanel.doRefactor();
-        }
     }));
     if (vscode.window.registerWebviewPanelSerializer) {
         // Make sure we register a serializer in activation event
@@ -75,16 +68,11 @@ class CatCodingPanel {
             return;
         }
         // Otherwise, create a new panel.
-        const panel = vscode.window.createWebviewPanel(CatCodingPanel.viewType, 'Cat Coding', column || vscode.ViewColumn.One, getWebviewOptions(extensionUri));
+        const panel = vscode.window.createWebviewPanel(CatCodingPanel.viewType, 'Carmack', column || vscode.ViewColumn.One, getWebviewOptions(extensionUri));
         CatCodingPanel.currentPanel = new CatCodingPanel(panel, extensionUri);
     }
     static revive(panel, extensionUri) {
         CatCodingPanel.currentPanel = new CatCodingPanel(panel, extensionUri);
-    }
-    doRefactor() {
-        // Send a message to the webview webview.
-        // You can send any JSON serializable data.
-        this._panel.webview.postMessage({ command: 'refactor' });
     }
     dispose() {
         CatCodingPanel.currentPanel = undefined;
@@ -101,25 +89,19 @@ class CatCodingPanel {
         const webview = this._panel.webview;
         // Vary the webview's content based on where it is located in the editor.
         switch (this._panel.viewColumn) {
-            case vscode.ViewColumn.Two:
-                this._updateForCat(webview, 'Compiling Cat');
-                return;
-            case vscode.ViewColumn.Three:
-                this._updateForCat(webview, 'Testing Cat');
-                return;
             case vscode.ViewColumn.One:
             default:
-                this._updateForCat(webview, 'Coding Cat');
+                this._updateForCat(webview, 'Carmack');
                 return;
         }
     }
     _updateForCat(webview, catName) {
         this._panel.title = catName;
-        this._panel.webview.html = this._getHtmlForWebview(webview, cats[catName]);
+        this._panel.webview.html = this._getHtmlForWebview(webview, "Carmack");
     }
     _getHtmlForWebview(webview, catGifPath) {
         // And the uri we use to load this script in the webview
-        const image_logo = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'carmack_logo.png'));
+        const logo = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'carmack_logo.png'));
         const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
         const languageUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'language.js'));
         const speechRecognitionUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'speechRecognition.js'));
@@ -143,7 +125,7 @@ class CatCodingPanel {
 		  <body class="container pt-5 bg-dark">
 			<div class="mt-4" id="div_language">
 				<div class="logo-container">
-					<img class="logo" src="${image_logo}}">
+					<img class="logo" src="${logo}">
 		  		</div>
 			  <h2 class="mb-3 text-light">Select Language</h2>
 			  <select class="form-select bg-secondary text-light" id="select_language" onchange="updateCountry()"></select>
@@ -166,7 +148,7 @@ class CatCodingPanel {
 		</html>`;
     }
 }
-CatCodingPanel.viewType = 'catCoding';
+CatCodingPanel.viewType = 'carmack';
 function getNonce() {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

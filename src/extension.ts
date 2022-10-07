@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-const cats = {
+const selection = {
 	'Carmack': ''
 };
 
@@ -35,7 +35,7 @@ function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
 }
 
 /**
- * Manages cat coding webview panels
+ * Manages webview panels
  */
 class CatCodingPanel {
 	/**
@@ -139,7 +139,7 @@ class CatCodingPanel {
 		}
 	}
 
-	private _updateForCat(webview: vscode.Webview, catName: keyof typeof cats) {
+	private _updateForCat(webview: vscode.Webview, catName: keyof typeof selection) {
 		this._panel.title = catName;
 		this._panel.webview.html = this._getHtmlForWebview(webview, "Carmack");
 	}

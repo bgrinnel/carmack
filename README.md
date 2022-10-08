@@ -15,3 +15,4 @@
 
 ## Colaborators
 - Jonah Daian
+- Kenneth Scott

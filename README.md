@@ -12,3 +12,6 @@
 - `npm run watch` or `npm run compile`
 - `F5` to start debugging
 - Open command palette and run `Carmack: Open`
+
+## Colaborators
+- Jonah Daian
